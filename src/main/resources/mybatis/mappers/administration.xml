@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.admin">
+
+	<resultMap id="adminProductResult" type="AdministrationVO">
+		<result property="user_id" column="user_id" />
+		<result property="user_rank_id" column="user_rank_id" />
+		<result property="user_account" column="user_account" />
+		<result property="user_password" column="user_password" />
+		<result property="user_profile" column="user_profile" />
+		<result property="user_name" column="user_name" />
+		<result property="user_zipcode" column="user_zipcode" />
+		<result property="user_address" column="user_address" />
+		<result property="user_contact" column="user_contact" />
+		<result property="user_create" column="user_create" />
+		<result property="user_delete" column="user_delete" />
+	</resultMap> 
+	
+	
+	<!-- 모든 디비 정보 들어가게 하는거 -->
+	<select id="selectProductAdmin" resultMap="adminProductResult">
+        <![CDATA[
+      	select * from customer_user
+      	where user_delete is null
+      ]]>
+	</select>
+	
+    <select id="selectProductAdmin2" resultMap="adminProductResult">
+      <![CDATA[
+			SELECT *
+			FROM   product P,
+			       category C,
+			       customer_user CU,
+			       order_detail OD
+			WHERE  C.cate_id = P.cate_id
+			AND    CU.user_id = P.user_id
+			AND    P.product_id = OD.product_id
+ 
+      ]]>
+	</select>
+  
+  	
+  	<select id="selectProductAdmin3" resultMap="adminProductResult">
+      <![CDATA[
+      	select C.cs_board_id, C.user_id,U.user_name, C.b_ctgry_id, C.cs_b_title, C.cs_b_content, C.cs_b_date
+				from
+				cs_board C,
+				customer_user U
+				where C.user_id = U.user_id
+      ]]>
+	</select>
+	
+	
+	
+	<update id="removeAdminMem" parameterType="String">
+      <![CDATA[
+      	update customer_user
+      	set user_delete = sysdate
+      	where user_id = #{user_id}
+      ]]>
+	</update>
+	
+	
+	<delete id="removeAdminBoard" parameterType="String">
+      <![CDATA[
+      	delete from cs_board
+      	where cs_board_id = #{cs_board_id}
+	    ]]>
+	</delete>
+	
+	
+	  <select id="adDetail" resultType="administrationVO" parameterType="map">
+      <![CDATA[
+							
+				select *
+		from    product p,
+		        customer_user c,
+		        order_detail od,
+		        category ca,
+		        gender G,
+		        product_order PO
+		where   p.user_id(+) = c.user_id
+		and     p.product_id = od.product_id(+)
+		and		p.cate_id = ca.cate_id
+		and   	p.user_id = #{user_id}
+        and     p.product_id = #{product_id}
+        and     P.gen_id = G.gen_id
+        and		PO.order_id = od.order_id
+
+      ]]>
+	</select>
+	
+	 <select id="buyAdDetail" resultType="administrationVO" parameterType="String">
+      <![CDATA[
+							
+		   
+                select *
+                from product_order PO,
+                    customer_user C,
+                    order_detail OD
+                where C.user_id = PO.user_id
+                and   PO.order_id = OD.order_id
+                and     OD.order_id = #{order_id}
+
+      ]]>
+	</select>
+  		
+  
+</mapper>

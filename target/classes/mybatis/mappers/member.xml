@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+
+	<resultMap id="memResult" type="memberVO">
+		<id property="user_id" column="user_id" />
+		<result property="user_rank_id" column="user_rank_id" />
+		<result property="user_account" column="user_account" />
+		<result property="user_password" column="user_password" />
+		<result property="user_profile" column="user_profile" />
+		<result property="user_name" column="user_name" />
+		<result property="user_zipcode" column="user_zipcode" />
+		<result property="user_address" column="user_address" />
+		<result property="user_contact" column="user_contact" />
+		<result property="user_create" column="user_create" />
+		<result property="user_delete" column="user_delete" />
+		<result property="biz_id" column="biz_id" />
+	</resultMap>
+
+	<resultMap id="rankResult" type="rankVO">
+		<id property="user_rank_id" column="user_rank_id" />
+		<result property="user_ranking" column="user_ranking" />
+		<result property="user_ranking_code" column="user_ranking_code" />
+	</resultMap>
+
+	<resultMap id="bizResult" type="businessVO">
+		<id property="biz_id" column="biz_id" />
+		<result property="biz_name" column="biz_name" />
+		<result property="biz_num" column="biz_num" />
+		<result property="biz_address" column="biz_address" />
+	</resultMap>
+
+	<select id="loginById" resultType="memberVO"
+		parameterType="memberVO">
+	<![CDATA[
+		select * from customer_user	
+		where user_account=#{user_account} and user_password=#{user_password}		
+	]]>
+	</select>
+
+	<select id="selectMyBusinessInfo" resultType="businessVO"
+		parameterType="String">
+		<![CDATA[
+			select b.biz_id, b.biz_name, b.biz_num, b.biz_address
+			from biz_info b, customer_user cu
+			where cu.biz_id = b.biz_id
+			and cu.user_id = #{user_id}
+		]]>
+	</select>
+
+	<select id="selectRank" resultType="rankVO"
+		parameterType="String">
+		<![CDATA[
+			select * from rank
+			where user_rank_id = #{user_rank_id}
+		]]>
+	</select>
+
+	<select id="idCheck" resultType="int">
+	<![CDATA[
+		select count(*) from customer_user
+		where user_account = #{user_account}
+	]]>
+	</select>
+
+	<insert id="register" parameterType="memberVO">
+  	<![CDATA[
+  		insert into customer_user (user_id, user_rank_id, user_account, user_password, user_name, user_zipcode, user_address, user_contact, user_create)
+  		values (user_id_seq.nextval, '2', #{user_account}, #{user_password}, #{user_name}, #{user_zipcode}, #{user_address}, #{user_contact}, sysdate)
+  	]]>
+	</insert>
+
+	<insert id="insertBusiness" parameterType="businessVO">
+	<![CDATA[
+		insert into biz_info values (biz_id_seq.nextval, #{biz_name}, #{biz_num}, #{biz_address})
+	]]>
+	</insert>
+
+	<select id="bizNumChk" resultType="int">
+	<![CDATA[
+		select count(*) from biz_info
+		where biz_num = #{biz_num}
+	]]>
+	</select>
+
+	<update id="update_customer_user_biz_id" parameterType="String"> 
+	<![CDATA[ 
+		update customer_user set biz_id = (select last_number from user_sequences 
+		where sequence_name = 'BIZ_ID_SEQ')-1 where user_id = #{user_id} 
+	]]>
+	</update>
+
+	<select id="selectUserInfoMap" resultType="map">
+	<![CDATA[
+		select *
+		from    product p,
+		        customer_user c,
+		        order_detail od
+		where   p.user_id(+) = c.user_id
+		and     p.product_id = od.product_id(+)
+		and   	c.user_id = #{user_id}
+		order by p.product_id desc
+	]]>
+	</select>
+
+	<select id="selectUserWish" resultType="map">
+	<![CDATA[
+		select * from prdt_wish pw, customer_user cu, product pt
+    	where pw.product_id = pt.product_id and pw.product_wishlist = '1'
+    	and cu.user_id = pw.user_id and pw.user_id = #{user_id}
+	]]>
+	</select>
+
+	<select id="selectCheckSale" resultType="map">
+	<![CDATA[
+		select  p.product_id, p.cate_id, p.user_id, p.product_img,
+		p.product_name, p.product_price, od.od_status
+		from    customer_user c,
+		        product_order po,
+		        order_detail od,
+		        product p
+		where   c.user_id = po.user_id
+		and     po.order_id = od.order_id
+		and     od.product_id = p.product_id
+		and     po.user_id = #{user_id}
+		order by p.product_id desc
+	]]>
+	</select>
+
+	<select id="selectUserByName" resultType="memberVO"
+		parameterType="String">
+		<![CDATA[
+			select * from customer_user cu left outer join rank rk
+			on rk.user_rank_id = cu.user_rank_id
+			where user_name = #{user_name}
+		]]>
+	</select>
+
+
+
+	<update id="updateState" parameterType="String">
+	<![CDATA[
+		update order_detail
+		set od_status = #{od_status}
+		where product_id = #{product_id}
+	]]>
+	</update>
+
+</mapper>

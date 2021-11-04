@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+.item > .item_info {
+    background-color: rgba(200, 200, 200, 0.8);
+    z-index: 1;
+    height: 30%;
+}
+
+
+.deliver_list_whole, .profile_box, #proDetailBar {
+	border-style: solid;
+	border-width: 3px 3px 3px 27px;
+	border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0px;
+    border-color: #3CB371;
+}
+
+#item_bar {
+	border-style: solid;
+	border-width: 3px 3px 3px 3px;
+	border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0px;
+    border-color: #3CB371;
+}
+
+
+.deli_list_right {
+    width: 100%;
+    text-align: center;
+    border: none;
+    padding: 20px 0px;
+    margin: 0 auto;
+    display: flex; 
+    justify-content:flex-end;
+    align-items: center;
+}
+
+.deliver_list {
+    width: 100%;
+    text-align: center;
+    border: none;
+    padding: 20px 0px;
+    margin: 0 auto;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+}
+
+.del_list2 {
+    width: 50%;
+}
+ 
+.wish_container, .review_container, .deliver_container {
+	display:none;
+} 
+
+/* 여기부터 안전결제 관련 */
+
+.safePurchase_container {
+    width: 640px;
+    border: none;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.safePurchase_container > div {
+    padding: 30px 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+.image_btn {
+    width: 30px;
+    height: 30px;
+    float: left;
+    padding: 2px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image_btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.safe_item_line {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.safe_item_image {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.safe_address_container {
+    text-align: left;
+}
+
+#safe_address_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#safe_address_box2 {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.deliver_location {
+    width: 100%;
+	margin-top: 20px;
+	height: 40px;
+	border-radius: 5px;
+}
+
+.safe_money_container {
+    text-align: left;
+}
+
+.safe_money_line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0px;
+}
+
+.safe_purchase_way_container {
+    text-align: left;
+}
+
+.safe_agree_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.safe_purchase_container > button {
+    width: 100%;
+}

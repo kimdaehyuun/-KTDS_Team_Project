@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.product">
+
+	<resultMap id="productResult" type="productVO">
+		<result property="product_id" column="product_id" />
+		<result property="user_id" column="user_id" />
+		<result property="cate_id" column="cate_id" />
+		<result property="gen_id" column="gen_id" />
+		<result property="product_name" column="product_name" />
+		<result property="product_price" column="product_price" />
+		<result property="product_detail" column="product_detail" />
+		<result property="product_date" column="product_date" />
+		<result property="product_delete" column="product_delete" />
+		<result property="product_views" column="product_views" />
+		<result property="product_img" column="product_img" />
+		
+		<collection property="wishVO" resultMap="wishResult" />
+		<collection property="orderdetailVO" resultMap="odDetailResult" />
+	</resultMap> 
+	
+	<resultMap id="categoryResult" type="categoryVO">
+		<result property="cate_id" column="cate_id" />
+		<result property="cate_name" column="cate_name" />
+		<result property="cate_img" column="cate_img" />
+	</resultMap> 
+	
+	<resultMap id="wishResult" type="wishVO">
+		<result property="product_wishlist" column="product_wishlist" />
+		<result property="user_id" column="user_id" />
+		<result property="product_id" column="product_id" />
+	</resultMap> 
+	
+	<resultMap id="odResult" type="orderVO">
+		<result property="order_id" column="order_id" />
+		<result property="user_id" column="user_id" />
+		<result property="order_date" column="order_date" />
+	</resultMap> 
+	
+	<resultMap id="odDetailResult" type="orderdetailVO">
+		<result property="od_id" column="od_id" />
+		<result property="order_id" column="order_id" />
+		<result property="product_id" column="product_id" />
+		<result property="od_product_count" column="od_product_count" />
+		<result property="od_status" column="od_status" />
+	</resultMap> 
+	
+	
+	<!-- 리스트 화면에서 해당 카테고리의 리스트만 셀렉해오는거 -->
+	<select id="selectListCategory" resultMap="productResult" parameterType="java.util.Map">    
+       	
+       	<choose>
+       	<when test='mode.equals("1") '>
+       	select
+       		*
+	         from product where cate_id = #{cate_id}
+	         and product_delete != '1'
+	         and product_id in
+	         			(select p.product_id
+						from product p left join order_detail o
+						on p.product_id = o.product_id
+						where nvl(o.od_status, 0) = '0')
+	         	<choose>
+	         		<when test='filter.equals("male")'>
+	         			and gen_id = '1'
+	         		</when>
+	         		<when test='filter.equals("female")'>
+	         			and gen_id = '2'
+	         		</when>
+	         		<when test='filter.equals("allgender")'>
+	         			and gen_id = '3'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         	<choose>
+	         		<when test='safe.equals("safe")'>
+	         			and product_safe = '1'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         order by product_id desc
+       	</when>
+       	<when test='mode.equals("2") '>
+       	select
+       		nvl(b.cnt,0) as cnt, p.*
+			from product p left outer join (
+			    select product_id, count(*) as cnt
+			    from prdt_wish
+			    where product_wishlist = 1 group by product_id ) b on p.product_id = b.product_id
+			where p.cate_id = #{cate_id}
+			and product_delete != '1'
+			and p.product_id in
+	         			(select p.product_id
+						from product p left join order_detail o
+						on p.product_id = o.product_id
+						where nvl(o.od_status, 0) = '0')
+				<choose>
+	         		<when test='filter.equals("male")'>
+	         			and gen_id = '1'
+	         		</when>
+	         		<when test='filter.equals("female")'>
+	         			and gen_id = '2'
+	         		</when>
+	         		<when test='filter.equals("allgender")'>
+	         			and gen_id = '3'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         	
+	         	<choose>
+	         		<when test='safe.equals("safe")'>
+	         			and product_safe = '1'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+			order by nvl(cnt,0) desc
+       	</when>
+       	<when test='mode.equals("3") '>
+       	select
+       		*
+	         from product where cate_id = #{cate_id}
+	         and product_delete != '1'
+	         and product_id in
+	         			(select p.product_id
+						from product p left join order_detail o
+						on p.product_id = o.product_id
+						where nvl(o.od_status, 0) = '0')
+	         	<choose>
+	         		<when test='filter.equals("male")'>
+	         			and gen_id = '1'
+	         		</when>
+	         		<when test='filter.equals("female")'>
+	         			and gen_id = '2'
+	         		</when>
+	         		<when test='filter.equals("allgender")'>
+	         			and gen_id = '3'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         	<choose>
+	         		<when test='safe.equals("safe")'>
+	         			and product_safe = '1'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         order by product_price
+       	</when>
+       	<when test='mode.equals("4")'>
+       	select
+       		*
+	         from product where cate_id = #{cate_id}
+	         and product_delete != '1'
+	         and product_id in
+	         			(select p.product_id
+						from product p left join order_detail o
+						on p.product_id = o.product_id
+						where nvl(o.od_status, 0) = '0')
+	         	<choose>
+	         		<when test='filter.equals("male")'>
+	         			and gen_id = '1'
+	         		</when>
+	         		<when test='filter.equals("female")'>
+	         			and gen_id = '2'
+	         		</when>
+	         		<when test='filter.equals("allgender")'>
+	         			and gen_id = '3'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         	<choose>
+	         		<when test='safe.equals("safe")'>
+	         			and product_safe = '1'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         order by product_price desc
+       	</when>
+       	<otherwise>
+       		select
+       		*
+	         from product where cate_id = #{cate_id}
+	         and product_delete != '1'
+	         and product_id in
+	         			(select p.product_id
+						from product p left join order_detail o
+						on p.product_id = o.product_id
+						where nvl(o.od_status, 0) = '0')
+	         	<choose>
+	         		<when test='filter.equals("male")'>
+	         			and gen_id = '1'
+	         		</when>
+	         		<when test='filter.equals("female")'>
+	         			and gen_id = '2'
+	         		</when>
+	         		<when test='filter.equals("allgender")'>
+	         			and gen_id = '3'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         	<choose>
+	         		<when test='safe.equals("safe")'>
+	         			and product_safe = '1'
+	         		</when>
+	         		<otherwise>
+	         		</otherwise>
+	         	</choose>
+	         order by product_id desc
+       	</otherwise>
+       	
+       </choose>
+         
+     
+	</select>
+	
+	<!-- 세부정보 창 들어갔을 때 해당 상품 정보만 띄우는거 -->
+	<select id="selectPdDetail" resultType="productVO" parameterType="map">
+      <![CDATA[
+         select * from product
+         where product_id = #{product_id}
+		 and cate_id = #{cate_id}
+      ]]>
+	</select>
+	
+	<!-- 세부정보 들어갔을 때 카테고리 아이디로 카테고리 이름 찾는 법 -->
+	<select id="selectCategory" resultType="categoryVO" parameterType="int">
+      <![CDATA[
+         select * from category where cate_id = #{cate_id}
+      ]]>
+	</select>
+	
+	<!-- 세부정보 들어갔을 때 유저 아이디 정보 가져가는거 -->
+	<select id="selectUserId" resultType="userVO" parameterType="int">
+      <![CDATA[
+         select * from customer_user where user_id = #{user_id}
+      ]]>
+	</select>
+	
+	<!-- 세부정보 들어갔을 때 해당 유저의 다른 상품 조회를 위함 -->
+	<select id="selectOtherProduct" resultMap="productResult">
+      <![CDATA[
+         select *
+         from product
+         where user_id = #{user_id}
+      ]]>
+	</select>
+	
+	
+	<select id="checkWish" resultType="String" parameterType="wishVO">
+      <![CDATA[
+         select product_wishlist from prdt_wish
+         where user_id = #{user_id}
+         and product_id = #{product_id}
+      ]]>
+	</select>
+	
+	<insert id="insertWish" parameterType="wishVO">
+      <![CDATA[
+         insert into prdt_wish
+         (user_id, product_id, product_wishlist)
+         values (#{user_id}, #{product_id}, '1')
+      ]]>
+	</insert>
+	
+	<update id="updateWish" parameterType="wishVO">
+      <![CDATA[
+         update prdt_wish
+         set product_wishlist = #{product_wishlist}
+         where user_id = #{user_id}
+         and product_id = #{product_id}
+      ]]>
+	</update>
+	
+	<select id="countWish" resultType="String" parameterType="wishVO">
+      <![CDATA[
+         select count(*)
+         from prdt_wish
+         where product_id = #{product_id} and product_wishlist = 1
+      ]]>
+	</select>
+	
+	
+	
+	<!--안전결제 창 들어갈때 상품정보 값 가져가는거 -->
+	<select id="selectSafeProduct" resultType="productVO" parameterType="String">
+      <![CDATA[
+         select * from product
+         where product_id = #{product_id}
+      ]]>
+	</select>
+	
+	<!-- 상품 등록을 위한 동작 -->
+	<insert id="pdSubmit" parameterType="productVO">
+      <![CDATA[
+         insert into product
+		(product_id, user_id, cate_id, gen_id, product_name, product_price,
+		product_detail, product_date, product_safe, product_img, product_delete)
+		values (product_id_seq.nextval, #{user_id}, #{cate_id}, #{gen_id},
+		#{product_name}, #{product_price}, #{product_detail}, sysdate, #{product_safe}, #{product_img}, '0')
+  		
+      ]]>
+	</insert>
+	
+	
+	
+	<!--상품 삭제 -->
+	<update id="removeProduct" parameterType="String">
+      <![CDATA[
+         update product set product_delete = '1'
+         where product_id = #{product_id}
+      ]]>
+	</update>
+	
+	
+	<!-- 안전결제 페이지에서 결제 진행을 위한 동작. 주문 테이블에 인서트 -->
+	<insert id="pdPay" parameterType="orderVO" useGeneratedKeys="true" keyColumn="order_id" keyProperty="order_id">
+       insert into product_order
+       (order_id, user_id, order_date)
+       values (product_order_id_seq.nextval, #{user_id}, sysdate)
+       <selectKey keyProperty="order_id" resultType="String" order="AFTER">
+       		select product_order_id_seq.currval from dual
+       </selectKey>
+	</insert>
+	
+	
+	
+	
+	<!-- 안전결제 페이지에서 결제 진행을 위한 동작. 주문 상세 테이블에 인서트 -->
+	<insert id="pdPayDetail" parameterType="orderdetailVO">
+      <![CDATA[
+         insert into order_detail
+         (od_id, order_id, product_id, od_product_count, od_status)
+         values (order_detail_id_seq.nextval, #{order_id}, #{product_id}, '1', '1')
+      ]]>
+	</insert>
+	
+	
+	<!--이미 거래가 진행되고 있는 상품은 결제 버튼을 누르지 못하도록 하는거-->
+	<select id="dontSell" resultType="String" parameterType="String">
+      <![CDATA[
+         select od_status
+         from order_detail
+         where product_id = #{product_id}
+      ]]>
+	</select>
+	
+</mapper>

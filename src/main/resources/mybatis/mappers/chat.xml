@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.chat">
+
+	<resultMap id="chatResult" type="chatVO">
+		<id property="chat_id" column="chat_id" />
+		<result property="user_id" column="user_id" />
+		<result property="product_id" column="product_id" />
+		<result property="chat_date" column="chat_date" />
+	</resultMap>
+
+	<resultMap id="msgResult" type="messageVO">
+		<result property="chat_id" column="chat_id" />
+		<result property="msg" column="msg" />
+		<result property="msg_date" column="msg_date" />
+		<result property="msg_writer" column="msg_writer" />
+	</resultMap>
+
+	<select id="getChatMessage" resultType="messageVO"
+		parameterType="String">
+		<![CDATA[
+			select msg.chat_id, msg.msg, msg.msg_date, msg.msg_writer from message msg, chat ct
+			where msg.chat_id = ct.chat_id and msg.chat_id = #{chat_id} order by msg_date
+		]]>
+	</select>
+
+	<select id="searchRoom" resultType="map">
+		<![CDATA[
+			select ct.chat_id, pt.product_name, pt.product_price, cu.user_name FROM chat ct, product pt, customer_user cu
+	    	where ct.product_id = pt.product_id and ct.user_id = cu.user_id
+	    	and pt.user_id = #{user_id}
+		]]>
+	</select>
+
+	<select id="checkChatRoom" resultType="int">
+		<![CDATA[
+        	select count(*) from chat ct, customer_user cu, product pt
+        	where ct.product_id = pt.product_id and ct.user_id = cu.user_id
+        	and pt.product_id = #{product_id} and cu.user_id = #{user_id}
+		]]>
+	</select>
+
+	<insert id="createNewChatRoom">
+		<![CDATA[
+			insert into chat (chat_id, user_id, product_id, chat_date)
+            values (chat_id_seq.nextval, #{user_id}, #{product_id}, sysdate)
+		]]>
+	</insert>
+
+	<select id="loadChatRoom" resultType="chatVO">
+		<![CDATA[
+			select * from chat
+			where chat.user_id = #{user_id}
+			and chat.product_id = #{product_id}
+		]]>
+	</select>
+
+	<insert id="insertMsg">
+		<![CDATA[
+			insert into message values (#{chat_id}, #{msg}, sysdate, #{msg_writer})
+		]]>
+	</insert>
+
+
+
+</mapper>
+   

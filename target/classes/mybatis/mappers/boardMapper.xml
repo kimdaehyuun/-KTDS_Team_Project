@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mappers.board">
+
+	<!-- 게시물 목록 -->
+	<select id="list"
+		resultType="com.niceShot.project.board.vo.BoardVO">
+		select
+		cs.cs_board_id, cu.user_name user_name,cs.b_ctgry_id, cs.cs_b_title, 
+        cs.cs_b_content, cs.cs_b_views, cs.cs_b_date, cs.cs_b_lock
+		from cs_board cs,
+        customer_user cu
+        where cs.user_id = cu.user_id
+	</select>
+
+	<!-- 게시물 작성 -->
+	<insert id="write"
+		parameterType="com.niceShot.project.board.vo.BoardVO">
+		insert into cs_board
+		(cs_board_id, user_id, b_ctgry_id, cs_b_title, cs_b_content, cs_b_views, cs_b_date, cs_b_lock)
+		values
+		(cs_board_id_seq.nextval, #{user_id}, #{b_ctgry_id}, #{cs_b_title}, #{cs_b_content}, '0', sysdate, #{cs_b_lock})
+	</insert>
+
+	<!-- 게시물 조회 -->
+	<select id="view" parameterType="String"
+		resultType="com.niceShot.project.board.vo.BoardVO">
+		select
+		rownum,a.cs_board_id, a.user_id,a.b_ctgry_id, a.cs_b_title, a.cs_b_content, a.cs_b_views,
+		a.cs_b_date, a.cs_b_lock, c.user_name
+		from cs_board a,
+        customer_user c
+		where a.user_id = c.user_id
+		and a.cs_board_id = #{cs_board_id}
+	</select>
+
+	<!-- 게시물 수정 -->
+	<update id="modify"
+		parameterType="com.niceShot.project.board.vo.BoardVO">
+		update cs_board
+		set
+		cs_b_title = #{cs_b_title},
+		cs_b_content = #{cs_b_content}
+		where cs_board_id = #{cs_board_id}
+	</update>
+
+	<!-- 게시물 삭제 -->
+	<delete id="delete" parameterType="String">
+		delete
+		from cs_board
+		where cs_board_id = #{cs_board_id}
+	</delete>
+
+	<!-- 게시물 총 개수 -->
+	<select id="count" resultType="int">
+		select count(cs_board_id) from cs_board
+	</select>
+
+	<!-- 게시물 목록 + 페이징 -->
+	<select id="listPage" parameterType="hashMap"
+		resultType="com.niceShot.project.board.vo.BoardVO">
+		select
+		cs_board_id,user_id,b_ctgry_id,cs_b_title,cs_b_content,cs_b_views,cs_b_date,cs_b_lock
+		from
+		(
+		select cs_board_id,
+		user_id,
+		b_ctgry_id,
+		cs_b_title,
+		cs_b_content,
+		cs_b_views,
+		cs_b_date,
+		cs_b_lock, row_number() over(order by cs_board_id desc) as rNum
+		from cs_board
+		<if test="b_ctgry_id != null">
+		where b_ctgry_id = #{b_ctgry_id}
+		</if>
+		) CB
+		where rNum between #{rowStart} and #{rowEnd}
+		<if test='b_ctgry_id != null'>
+		and b_ctgry_id = #{b_ctgry_id}
+		</if>
+		order by cs_board_id desc
+	</select>
+</mapper>

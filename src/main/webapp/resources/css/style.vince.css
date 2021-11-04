@@ -1,0 +1,367 @@
+/* 택배조회 */
+
+.context {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  margin-top: 50px;
+  padding-top: 20px;
+}
+
+.context > h1 {
+  line-height: 150px;
+}
+
+.info {
+  border-collapse: separate;
+  border-spacing: 1px;
+  text-align: center;
+  line-height: 1.5;
+  border-top: 1px solid #ccc;
+  margin: auto;
+  margin-top: 70px;
+}
+.info th {
+  width: 150px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+  background: #efefef;
+}
+.info td {
+  width: 350px;
+  padding: 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+.delivery {
+  border-collapse: separate;
+  border-spacing: 1px;
+  text-align: center;
+  line-height: 1.5;
+  border-top: 1px solid #ccc;
+  margin: auto;
+  margin-top: 40px;
+}
+.delivery th {
+  width: 150px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+  background: #efefef;
+}
+.delivery td {
+  width: 350px;
+  padding: 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+.deliveryImage {
+  margin: 40px;
+}
+
+.situation {
+  border-collapse: separate;
+  border-spacing: 1px;
+  text-align: center;
+  line-height: 1.5;
+  margin: auto;
+  margin-top: 40px;
+}
+.situation th {
+  width: 155px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  color: #fff;
+  background: #ce4869;
+}
+.situation td {
+  width: 155px;
+  padding: 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+  background: #eee;
+}
+
+/* 판매자화면 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.item_container {
+  width: 1024px;
+  text-align: center;
+  border: none;
+  padding: 20px 0px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+.input-group > select {
+  width: 190px;
+  padding: 0.8em 0.5em;
+  border: 1px solid #999;
+  font-family: inherit;
+  border-radius: 10px;
+}
+
+.selectFile {
+  text-align: center;
+  margin-top: 50px;
+  width: 50%;
+}
+
+.product_select {
+  width: 190px;
+  padding: 0.8em 0.5em;
+  border: 1px solid #999;
+  font-family: inherit;
+  border-radius: 5px;
+}
+
+.sell_info {
+  width: 50%;
+}
+
+.dropdown {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.productInfo {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.secondHand {
+  text-align: center;
+  margin-left: 50px;
+}
+
+.gender {
+  font-size: 20px;
+  width: 53%;
+}
+
+.leftRight {
+  font-size: 20px;
+  margin-top: 35px;
+  width: 50%;
+}
+
+.deliveryPayCheck {
+  text-align: center;
+  margin-top: 35px;
+  font-size: larger;
+  margin-right: 262px;
+}
+
+.productTitle {
+  text-align: center;
+  margin-top: 35px;
+  border-radius: 6px;
+  margin-left: 0;
+  width: 80%;
+  box-shadow: 0 0 0 2px black;
+}
+
+.productName {
+  text-align: center;
+  margin-top: 30px;
+  width: 80%;
+}
+
+.productDate {
+  text-align: center;
+  margin-top: 30px;
+  border-radius: 6px;
+  width: 80%;
+  box-shadow: 0 0 0 2px black;
+}
+
+.productPrice {
+  text-align: center;
+  margin-top: 30px;
+  width: 80%;
+}
+
+.nego {
+  text-align: center;
+  margin-top: 25px;
+  font-size: larger;
+  margin-right: 415px;
+}
+
+.context {
+  text-align: center;
+  margin-top: 90px;
+}
+
+.category {
+  margin-top: 40px;
+  width: 1024px;
+  text-align: center;
+  border: none;
+  padding: 20px 0px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.category > div {
+  margin: 20px 30px;
+}
+
+.safePay {
+  text-align: center;
+  margin-top: 40px;
+  border-radius: 20px;
+  border: 1px solid white;
+}
+
+.safePayCheck {
+  text-align: center;
+  font-size: large;
+  font-size: 22px;
+  margin-top: 15px;
+}
+
+.submit {
+  text-align: center;
+  margin-top: 60px;
+  color: green;
+  background-color: rgb(255, 255, 255);
+  border-color: #007bff;
+  font-size: larger;
+  border-radius: 6px;
+}
+
+input::placeholder {
+  color: red;
+  text-shadow: 0 0 0px gray;
+  color: transparent;
+}
+
+textarea::placeholder {
+  color: blue;
+  font-weight: thin;
+  text-shadow: 0 0 0px gray;
+  color: transparent;
+}
+
+#inputTeamId {
+  margin: 0px 0px;
+}
+#inputGameId {
+  margin: 0px 30px;
+}
+
+#image_container > img {
+  /* width: 100%;
+  object-fit: cover; */
+  
+  	width: auto; height: auto;
+    max-width: 140px;
+    max-height: 140px;
+}
+
+/* .btn1>label{
+	padding: 5px 10px;
+	border: 1px solid #088A4B;
+	border-radius:3px;
+} 
+
+input[type=radio]:checked + label {
+	background: #088A4B;
+	color: white;
+}
+ */
+
+  input[type='radio'] {
+    -webkit-appearance:none;
+    width:16px;
+    height:16px;
+    border:1px solid darkgray;
+     border-radius:50%;
+    outline:none;
+    background:#ffffff;
+  }
+  
+  input[type='radio']:before {
+    content:'';
+    display:block;
+    width:60%;
+    height:60%;
+    margin: 20% auto;  
+    border-radius:50%;  
+  }
+  
+  input[type='radio']:checked:before {
+  	background:#04B431;
+  } 
+
+
+
+/* 글 올리기 */
+
+#board_write {
+  text-align: center;
+  margin-left: 35%;
+  margin-top: 50px;
+  width: 30%;
+  height: 30px;
+  font-size: 20px;
+}
+
+.updateDate {
+  text-align: center;
+  margin-top: 80px;
+  color: gray;
+  margin-left: 40%;
+}
+
+.views {
+  text-align: center;
+  color: gray;
+  margin-left: 36%;
+}
+
+.aaa {
+  text-align: center;
+  margin-left: 0%;
+  margin-top: 20px;
+}
+
+#utitle {
+  margin-top: 50px;
+  width: 30%;
+  height: 30px;
+  font-size: 20px;
+  margin-top: 80px;
+}
+
+#ucontent {
+  margin-top: 40px;
+}
+
+#fileSelect {
+  margin-top: 60px;
+}
+
+.bt_se {
+  margin-top: 80px;
+}
+
+.ddd {
+  color: red;
+}

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<!-- 타일즈 베이스 -->
+
+	<definition name="baseLayout"
+		template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/common/header.jsp" />
+		<!-- <put-attribute name="side" value="/WEB-INF/views/common/side.jsp" 
+			/> -->
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+
+	<!-- 홈(Home) 타일즈 -->
+
+	<definition name="home" extends="baseLayout">
+		<put-attribute name="title" value="메인 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/home.jsp" />
+	</definition>
+
+	<!-- 회원(Member) 관련 타일즈 -->
+
+	<definition name="/member/login" extends="baseLayout">
+		<put-attribute name="title" value="로그인 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/login/login.jsp" />
+	</definition>
+
+	<definition name="/member/registration" extends="baseLayout">
+		<put-attribute name="title" value="회원가입 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/login/registration.jsp" />
+	</definition>
+
+	<definition name="/member/business" extends="baseLayout">
+		<put-attribute name="title" value="사업자 등록 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/login/biz_register.jsp" />
+	</definition>
+
+	<definition name="/member/myPage" extends="baseLayout">
+		<put-attribute name="title" value="내 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/userPage/my.jsp" />
+	</definition>
+
+	<definition name="/member/otherPage" extends="baseLayout">
+		<put-attribute name="title" value="상대 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/userPage/other.jsp" />
+	</definition>
+
+	<definition name="/member/administration"
+		extends="baseLayout">
+		<put-attribute name="title" value="관리자" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/administration/administrator.jsp" />
+	</definition>
+
+	<!-- 상품(Product) 관련 페이지 타일즈 -->
+
+	<definition name="/product/pkChk" extends="baseLayout">
+		<put-attribute name="title" value="배송조회" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/products/packageCheck.jsp" />
+	</definition>
+
+	<definition name="/product/pdRegister" extends="baseLayout">
+		<put-attribute name="title" value="상품등록" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/products/productRegister.jsp" />
+	</definition>
+
+	<definition name="/product/pdList" extends="baseLayout">
+		<put-attribute name="title" value="상품리스트" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/products/productList.jsp" />
+	</definition>
+
+	<definition name="/product/pdDetail" extends="baseLayout">
+		<put-attribute name="title" value="상품정보" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/products/productDetail.jsp" />
+	</definition>
+
+	<definition name="/product/pdSafePurchase"
+		extends="baseLayout">
+		<put-attribute name="title" value="안전결제" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/products/safePurchase.jsp" />
+	</definition>
+
+	<!-- 고객센터 게시판(Customer_Service) 관련 타일즈 -->
+
+	<definition name="/board/customer_service"
+		extends="baseLayout">
+		<put-attribute name="title" value="고객센터" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/customer_service/center.jsp" />
+	</definition>
+
+	<definition name="/board/boardRegist" extends="baseLayout">
+		<put-attribute name="title" value="게시물 등록" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/customer_service/boardRegist.jsp" />
+	</definition>
+
+	<definition name="/board/list" extends="baseLayout">
+		<put-attribute name="title" value="게시물" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/list.jsp" />
+	</definition>
+
+	<definition name="/board/write" extends="baseLayout">
+		<put-attribute name="title" value="게시물 작성" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/write.jsp" />
+	</definition>
+
+	<definition name="/board/view" extends="baseLayout">
+		<put-attribute name="title" value="게시물" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/view.jsp" />
+	</definition>
+
+	<definition name="/board/modify" extends="baseLayout">
+		<put-attribute name="title" value="게시물 수정" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/modify.jsp" />
+	</definition>
+
+	<definition name="/board/listPage" extends="baseLayout">
+		<put-attribute name="title" value="게시물 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/listPage.jsp" />
+	</definition>
+
+	<definition name="/board/listPageSearch"
+		extends="baseLayout">
+		<put-attribute name="title" value="게시물 페이지" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/board/listPageSearch.jsp" />
+	</definition>
+
+	<!-- 채팅 -->
+	<definition name="/chat/chat"
+		extends="baseLayout">
+		<put-attribute name="title" value="채팅" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/chat/chat.jsp" />
+	</definition>
+	
+	<definition name="/chat/chatRoom"
+		extends="baseLayout">
+		<put-attribute name="title" value="채팅" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/chat/chatRoom.jsp" />
+	</definition>
+
+	<!-- 관리자 -->
+   <definition name="/member/administration" extends="baseLayout">
+   	  <put-attribute name="title" value="관리자" />
+   	  <put-attribute name="body" value="/WEB-INF/views/administration/administrator.jsp" />
+   </definition>
+   
+    <definition name="/member/administrationdetail" extends="baseLayout">
+   	  <put-attribute name="title" value="관리자" />
+   	  <put-attribute name="body" value="/WEB-INF/views/administration/admindetail.jsp" />
+   </definition>
+
+</tiles-definitions>
